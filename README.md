@@ -17,7 +17,10 @@ I installed a cr touch, which was the best cheap upgrade I did.
 I upgraded the printer to Marlin 2.0 building it from [coptertec's](https://www.coptertec.de/blogs/news/marlin-2-0-for-sovol-sv01) source. This is irrelevant for Klipper since it will be replaced.
 
 ## Klipper
-I am installing klipper on a raspberry pi 3B+.
+I am installing klipper on a raspberry pi 3B+. I decided to go with Mainsail since they offer very convenient premade images for many sbcs, but everything else should work for Fluidd and Octoprint as well.
+
+### Config file
+There is a config file available for the SV01 directly in the main repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg).
 
 
 
