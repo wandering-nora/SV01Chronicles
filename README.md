@@ -20,12 +20,12 @@ I upgraded the printer to Marlin 2.0 building it from [coptertec's](https://www.
 I am installing klipper on a raspberry pi 3B+. I decided to go with Mainsail, but everything else should work for Fluidd and Octoprint as well.
 
 ### Config file
-There is a config file available for the SV01 directly in the main repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg).
+There is a config file available for the SV01 directly in the main repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg) which I used as the starting point.
 
 ### Kiauh
 Mainsail offers a premade image but I decided to use Kiauh to instal it manually so I can more easily switch to another interface using the same installation procedure.
 
-Setup Raspberry Pi OS Lite on the pi using RPI imager enabling wifi and ssh. Then ssh into it and run:
+Setup Raspberry Pi OS Lite on the pi using RPI imager enabling wifi and ssh. Then ssh into it and run
 ```bash
 sudo apt-get update && sudo apt-get install git -y
 ```
@@ -60,6 +60,42 @@ sudo service klipper start
 After a power cycle the screen is now blank and the pi is ready to do all the work.
 
 ### Klipper config
+Copy [printer.cfg](https://github.com/wandering-nora/SV01Chronicles/blob/main/printer.cfg) to ~/printer_data/config/printer.cfg.  
+Now access Mainsail in a browser by entering your raspberry pi ip, if it complains about missing printer.cfg restart it.
 
+Now run
+```bash
+ls /dev/serial/by-id/*
+```
+and update printer.cfg file
+```
+[mcu]
+serial: <id found>
+```
+After verifying [basic functionality](https://www.klipper3d.org/Config_checks.html)  pid tune the extruder and bed heater by typing these commands in the console
+```
+PID_CALIBRATE HEATER=extruder TARGET=170
+SAVE_CONFIG
+PID_CALIBRATE HEATER=heater_bed TARGET=60
+SAVE_CONFIG
+```
+
+### Bed leveling
+Calibrate the probe offset by running
+```
+PROBE
+GET_POSITION
+```
+mark on the build plate the probe's position and moving the nozzle over it
+
+```
+GET_POSITION
+```
+subtract the X and Y coordinates of the first from the second and apply it to
+```
+[bltouch]
+x_offset: <x nozzle - x probe>
+y_offset: <y nozzle - y probe>
+```
 
 
