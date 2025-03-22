@@ -81,7 +81,7 @@ SAVE_CONFIG
 ```
 
 ### Bed leveling
-Calibrate the probe offset by running
+Calibrate the probe x and y offset by running
 ```
 PROBE
 GET_POSITION
@@ -97,5 +97,20 @@ subtract the X and Y coordinates of the first from the second and apply it to
 x_offset: <x nozzle - x probe>
 y_offset: <y nozzle - y probe>
 ```
+then home the printer and adjust the z offset with
+```
+PROBE_CALIBRATE
+```
+
+### Bed mesh
+Generate a bed mesh by running
+```
+BED_MESH_CALIBRATE
+```
+and save it with
+```
+SAVE_CONFIG
+```
+
 
 
