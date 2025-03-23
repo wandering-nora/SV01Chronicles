@@ -2,7 +2,7 @@
 This is a logbook for my SV01 printer thinkering.
 If you somehow stumble upon this feel free to look around and reach out.
 
-> Warning: I am a beginner and I definitely make mistakes. I take no responsibility.
+> Warning: I am a beginner and I definitely make mistakes. I take no responsibility. Make sure to read klipper's [documentation](https://www.klipper3d.org/Installation.html).
 
 The Sovol SV01 is a nice little machine, but the time has come to give it a glow up with Klipper to increase print quality and speed.
 My machine is stock apart from a couple upgrades:
