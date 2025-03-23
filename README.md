@@ -112,7 +112,7 @@ and save it with
 SAVE_CONFIG
 ```
 ### Test print
-Setup your slicer start and end code macros. For cura they will be
+Setup your slicer start and end G code. For cura using macros they will be
 ```
 START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
 ```
