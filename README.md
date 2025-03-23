@@ -112,10 +112,13 @@ and save it with
 SAVE_CONFIG
 ```
 ### Test print
-Setup your slicer start and end G code. For cura using macros they will be
+Setup your slicer, for cura you can just use the existing SV01 preset and change the start and end G-code. For cura using macros they will be
+
+Start G-code
 ```
 START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
 ```
+End G-code
 ```
 END_PRINT
 ```
@@ -126,7 +129,8 @@ Manage printers -> Connect Moonraker -> and enter your pi's ip.
 
 Now slice a simple model at a slow speed (60mm/s) and start a print, you may need to adjust the z offset but it should complete the print without issues.
 
-If it did, success!🌟 Now it's time to tune it for speed and quality.
+If it did, success! 🌟  
+Now it's time to tune it for speed and quality.
 
 ### Pressure advance
 ### Input shaping
