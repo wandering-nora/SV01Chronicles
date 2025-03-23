@@ -23,7 +23,7 @@ I am installing klipper on a raspberry pi 3B+. I decided to go with Mainsail, bu
 There is a config file available for the SV01 directly in the main repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg) which I used as the starting point.
 
 ### Kiauh
-Mainsail offers a premade image but I decided to use Kiauh to instal it manually so I can more easily switch to another interface using the same installation procedure.
+Mainsail offers a premade image but I decided to use Kiauh to install it manually so I can more easily switch to another interface using the same installation procedure.
 
 Setup Raspberry Pi OS Lite on the pi using RPI imager enabling wifi and ssh. Then ssh into it and run
 ```bash
