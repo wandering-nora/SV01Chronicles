@@ -86,7 +86,7 @@ Calibrate the probe x and y offset by running
 PROBE
 GET_POSITION
 ```
-mark on the build plate the probe's position and moving the nozzle over it
+mark on the build plate the probe's position and move the nozzle over it
 
 ```
 GET_POSITION
