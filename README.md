@@ -119,5 +119,14 @@ START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_
 ```
 END_PRINT
 ```
+disable unwanted settings according to the [documentation](https://www.klipper3d.org/Slicers.html). For cura disable acceleration control, jerk control and coasting.  
+In cura you can use the plugin "Moonraker connection" to send the gcode directly to klipper. Manage printers -> Connect Moonraker -> and enter your pi's ip.  
+Now slice a simple model at a slow speed (60mm/s) and start a print, you may need to adjust the z offset but it should complete the print without issues.
+If it did, success! 🌟
+
+### Pressure advance
+### Input shaping
+### Going fast
+
 
 
