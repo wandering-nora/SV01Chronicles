@@ -91,13 +91,13 @@ mark on the build plate the probe's position and move the nozzle over it
 ```
 GET_POSITION
 ```
-subtract the X and Y coordinates of the first from the second and apply it to
+the X and Y coordinates from the last two commands will be the probe and nozzle position respectively. Now calculate the offset and apply it to printer.cfg
 ```
 [bltouch]
 x_offset: <x nozzle - x probe>
 y_offset: <y nozzle - y probe>
 ```
-then home the printer and adjust the z offset with
+then home the printer and adjust the z offset with a piece of paper and
 ```
 PROBE_CALIBRATE
 ```
