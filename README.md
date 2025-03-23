@@ -134,6 +134,8 @@ Now it's time to tune it for speed and quality.
 
 ### Pressure advance
 ### Input shaping
+#### With accelerometer
+#### WIthout accelerometer
 ### Going fast
 
 
