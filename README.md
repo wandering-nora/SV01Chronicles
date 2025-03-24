@@ -132,10 +132,31 @@ Now slice a simple model at a slow speed (60mm/s) and start a print, you may nee
 If it did, success! 🌟  
 Now it's time to tune it for speed and quality.
 
+### Extruder calibration
+Now it's time to calibrate the extruder following these steps
+1. Heat up the nozzle and mark the filament ~70mm from the intake.
+2. Measure the actual distance with calipers <initial_mark_distance>
+3. Extrude 50mm
+   ```
+   G91
+   G1 E50 F60
+   ```
+5. Measure new distance between mark and intake <final_mark_distance>
+6. actual_extrude_distance = <initial_mark_distance> - <final_mark_distance>
+7. rotation_distance = 7.680 * <actual_extrude_distance> / 50
+8. round to 3 decimal places and update the config file
+   ```
+   [extruder]
+   rotation_distance: <rotation_distance>
+   ```
+
 ### Pressure advance
+
 ### Input shaping
+
 #### With accelerometer
 #### WIthout accelerometer
+
 ### Going fast
 
 
