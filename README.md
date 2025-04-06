@@ -111,9 +111,11 @@ and save it with
 ```
 SAVE_CONFIG
 ```
+in the webgui you can now visualize how your bed is almost as warped as your personality!
+
 ### Extruder calibration
 Now it's time to calibrate the extruder following these steps
-1. Heat up the nozzle and mark the filament ~70mm from the intake.
+1. Heat up the nozzle and mark the filament ~70mm from the intake
 2. Measure the actual distance with calipers <initial_mark_distance>
 3. Extrude 50mm
    ```
@@ -139,6 +141,8 @@ End G-code
 ```
 END_PRINT
 ```
+> macros cannot be stopped, so if you need you can copy the G-code from the printer.cfg macros directly into cura.
+
 Disable unwanted settings according to the [documentation](https://www.klipper3d.org/Slicers.html). For cura disable acceleration control, jerk control and coasting.  
 
 In cura you can use the plugin "Moonraker connection" to send the gcode directly to klipper.  
@@ -195,15 +199,15 @@ Test the accelerometer with
 ```
 ACCELEROMETER_QUERY
 ```
-then make sure the noise is not too high (at most in the hundreds) using
+then make sure the noise is not too high (at most in the hundreds)
 ```
 MEASURE_AXES_NOISE
 ```
-If everything is okay measure the Y axis resonance with (be prepared to stop it if it gets violent)
+If everything is okay measure the Y axis resonance
 ```
 TEST_RESONANCES AXIS=X
 ```
-Now move the accelerometer to the bed.
+Now place the accelerometer one the bed (I just taped it really well).
 Measure the resonance with
 ```
 TEST_RESONANCES AXIS=Y
@@ -231,11 +235,21 @@ max_accel: <less than max suggested>
 Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
 
 ### Pressure advance
-
+Now it's time to fix those corners.
+Slice [this model](https://www.klipper3d.org/prints/square_tower.stl) at ~0.3 layer height, 100mm/s, zero infill and make sure scarf seams are set to 0.
+Run
+```
+SET_VELOCITY_LIMIT SQUARE_CORNER_VELOCITY=1 ACCEL=500
+TUNING_TOWER COMMAND=SET_PRESSURE_ADVANCE PARAMETER=ADVANCE START=0 FACTOR=.005
+```
+then print the cube
 
 ### Extruder multiplier
+
 ### Retraction
+
 ### Max flow rate
+
 ### Going fast
 
 
