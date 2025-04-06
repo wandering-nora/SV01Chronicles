@@ -2,7 +2,7 @@
 This is a logbook for my SV01 printer thinkering.
 If you somehow stumble upon this feel free to look around and reach out.
 
-> Warning: I am a beginner and I definitely make mistakes. I take no responsibility. Make sure to read klipper's [documentation](https://www.klipper3d.org/Installation.html).
+> Warning: I am a beginner and I definitely make mistakes. This is **not** a guide, just some notes for myself to replicate the setup. Make sure to read klipper's [documentation](https://www.klipper3d.org/Installation.html).
 
 The Sovol SV01 is a nice little machine, but the time has come to give it a glow up with Klipper to increase print quality and speed.
 My machine is stock apart from a couple upgrades:
@@ -111,6 +111,23 @@ and save it with
 ```
 SAVE_CONFIG
 ```
+### Extruder calibration
+Now it's time to calibrate the extruder following these steps
+1. Heat up the nozzle and mark the filament ~70mm from the intake.
+2. Measure the actual distance with calipers <initial_mark_distance>
+3. Extrude 50mm
+   ```
+   G91
+   G1 E50 F60
+   ```
+5. Measure new distance between mark and intake <final_mark_distance>
+6. actual_extrude_distance = <initial_mark_distance> - <final_mark_distance>
+7. rotation_distance = 7.680 * <actual_extrude_distance> / 50
+8. round to 3 decimal places and update the config file
+   ```
+   [extruder]
+   rotation_distance: <rotation_distance>
+   ```
 ### Test print
 Setup your slicer, for cura you can just use the existing SV01 preset and change the start and end G-code. For cura using macros they will be
 
@@ -132,30 +149,84 @@ Now slice a simple model at a slow speed (60mm/s) and start a print, you may nee
 If it did, success! 🌟  
 Now it's time to tune it for speed and quality.
 
-### Extruder calibration
-Now it's time to calibrate the extruder following these steps
-1. Heat up the nozzle and mark the filament ~70mm from the intake.
-2. Measure the actual distance with calipers <initial_mark_distance>
-3. Extrude 50mm
-   ```
-   G91
-   G1 E50 F60
-   ```
-5. Measure new distance between mark and intake <final_mark_distance>
-6. actual_extrude_distance = <initial_mark_distance> - <final_mark_distance>
-7. rotation_distance = 7.680 * <actual_extrude_distance> / 50
-8. round to 3 decimal places and update the config file
-   ```
-   [extruder]
-   rotation_distance: <rotation_distance>
-   ```
-
-### Pressure advance
-
 ### Input shaping
+To use an ADXL345 with a raspberry pi:
+install needed packages with
+```
+sudo apt update
+sudo apt install python3-numpy python3-matplotlib libatlas-base-dev libopenblas-dev
+```
+install numpy with
+```
+~/klippy-env/bin/pip install -v "numpy<1.26"
+```
+now setup the pi to be act as a secondary mcu
+```
+cd ~/klipper/
+sudo cp ./scripts/klipper-mcu.service /etc/systemd/system/
+sudo systemctl enable klipper-mcu.service
+```
+then
+```
+make menuconfig
+```
+select "linux process" as the arch then Q and Y, then flash with
+```
+sudo service klipper stop
+make flash
+sudo service klipper start
+```
+enable SPI with
+```
+sudo raspi-config
+```
+Connect the accelerometer to the pi  
+```
+VCC -> 3V3    (1)  
+GND -> GND    (6)  
+CS  -> GPIO8  (24)  
+SDO -> GPIO9  (21)  
+SDA -> GPIO10 (19)  
+SCL -> GPIO11 (23)  
+```
+Now mount it securely to the extruder (there is an unused hole in the top), use a plastic m3 nut and a thin plastic film to isolate it and avoid ground loops.
 
-#### With accelerometer
-#### WIthout accelerometer
+Test the accelerometer with
+```
+ACCELEROMETER_QUERY
+```
+then make sure the noise is not too high (at most in the hundreds) using
+```
+MEASURE_AXES_NOISE
+```
+If everything is okay measure the Y axis resonance with (be prepared to stop it if it gets violent)
+```
+TEST_RESONANCES AXIS=Y
+```
+Now move the accelerometer to the bed.
+Measure the resonance with
+```
+TEST_RESONANCES AXIS=X
+```
+then generate your graphs with
+```
+~/klipper/scripts/calibrate_shaper.py /tmp/resonances_x_*.csv -o /tmp/shaper_calibrate_x.png
+~/klipper/scripts/calibrate_shaper.py /tmp/resonances_y_*.csv -o /tmp/shaper_calibrate_y.png
+```
+update the config file for input shaper
+```
+[input_shaper]
+shaper_freq_x: <suggested value>
+shaper_type_x: <suggested type>
+shaper_freq_y: <suggested value>
+shaper_type_y: <suggested type>
+```
+and max acceleration
+```
+[printer]
+max_accel: <less than max suggested>
+```
+### Pressure advance
 
 ### Going fast
 
