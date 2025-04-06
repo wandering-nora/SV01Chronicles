@@ -201,12 +201,12 @@ MEASURE_AXES_NOISE
 ```
 If everything is okay measure the Y axis resonance with (be prepared to stop it if it gets violent)
 ```
-TEST_RESONANCES AXIS=Y
+TEST_RESONANCES AXIS=X
 ```
 Now move the accelerometer to the bed.
 Measure the resonance with
 ```
-TEST_RESONANCES AXIS=X
+TEST_RESONANCES AXIS=Y
 ```
 then generate your graphs with
 ```
