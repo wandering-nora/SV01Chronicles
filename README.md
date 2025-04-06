@@ -226,9 +226,13 @@ and max acceleration
 [printer]
 max_accel: <less than max suggested>
 ```
-### Pressure advance
 
 ### Fine tuning Z offset
+Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
+
+### Pressure advance
+
+
 ### Extruder multiplier
 ### Retraction
 ### Max flow rate
