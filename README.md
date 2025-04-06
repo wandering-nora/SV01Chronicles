@@ -228,6 +228,10 @@ max_accel: <less than max suggested>
 ```
 ### Pressure advance
 
+### Fine tuning Z offset
+### Extruder multiplier
+### Retraction
+### Max flow rate
 ### Going fast
 
 
