@@ -235,14 +235,8 @@ max_accel: <less than max suggested>
 Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
 
 ### Pressure advance
-Now it's time to fix those corners.
-Slice [this model](https://www.klipper3d.org/prints/square_tower.stl) at ~0.3 layer height, 100mm/s, zero infill and make sure scarf seams are set to 0.
-Run
-```
-SET_VELOCITY_LIMIT SQUARE_CORNER_VELOCITY=1 ACCEL=500
-TUNING_TOWER COMMAND=SET_PRESSURE_ADVANCE PARAMETER=ADVANCE START=0 FACTOR=.005
-```
-then print the cube
+Now it's time to fix those corners. Once again we're going to use [ellis' tool.](https://ellis3dp.com/Pressure_Linear_Advance_Tool/)  
+You can use the G-code [here](). (210C extruder 60C bed)
 
 ### Extruder multiplier
 
