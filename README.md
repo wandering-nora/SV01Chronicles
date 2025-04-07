@@ -237,7 +237,7 @@ Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tun
 ### Pressure advance
 Now it's time to fix those corners. Once again we're going to use [ellis' tool.](https://ellis3dp.com/Pressure_Linear_Advance_Tool/)  
 You can use the G-code [here](). (210C extruder 60C bed)
-Pick the sharpest corner that isn't too rounded and update it
+Pick the sharpest corner that isn't too rounded and update the config
 ```
 [extruder]
 pressure_advance: <chosen value>
