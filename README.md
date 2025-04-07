@@ -227,7 +227,7 @@ shaper_type_y: <suggested type>
 ```
 and max acceleration
 ```
-[printer]
+[printer
 max_accel: <less than max suggested>
 ```
 
@@ -250,6 +250,9 @@ pressure_advance: <chosen value>
 ### Max flow rate
 
 ### Improving cooling
+
+### Belt tensioning
+
 
 ### Going fast
 
