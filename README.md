@@ -51,7 +51,7 @@ Now determine the serial port with
 ```bash
 ls /dev/serial/by-id/*
 ```
-and flash the firmware with
+Flash the firmware with
 ```bash
 sudo service klipper stop
 make flash FLASH_DEVICE=<serial port>
@@ -67,7 +67,7 @@ Now run
 ```bash
 ls /dev/serial/by-id/*
 ```
-and update printer.cfg file
+Update the printer.cfg file
 ```
 [mcu]
 serial: <id found>
@@ -86,18 +86,18 @@ Calibrate the probe x and y offset by running
 PROBE
 GET_POSITION
 ```
-mark on the build plate the probe's position and move the nozzle over it
+Mark on the build plate the probe's position and move the nozzle over it
 
 ```
 GET_POSITION
 ```
-the X and Y coordinates from the last two commands will be the probe and nozzle position respectively. Now calculate the offset and apply it to printer.cfg
+The X and Y coordinates from the last two commands will be the probe and nozzle position respectively. Now calculate the offset and apply it to printer.cfg
 ```
 [bltouch]
 x_offset: <x nozzle - x probe>
 y_offset: <y nozzle - y probe>
 ```
-then home the printer and adjust the z offset with a piece of paper and
+Then home the printer and adjust the z offset with a piece of paper and run
 ```
 PROBE_CALIBRATE
 ```
@@ -107,11 +107,11 @@ Generate a bed mesh by running
 ```
 BED_MESH_CALIBRATE
 ```
-and save it with
+Save it with
 ```
 SAVE_CONFIG
 ```
-in the webgui you can now visualize how your bed is almost as warped as your personality!
+In the webgui you can now visualize how your bed is almost as warped as your personality!
 
 ## Extruder calibration
 Now it's time to calibrate the extruder following these steps
@@ -154,33 +154,33 @@ If it did, success! 🌟
 Now it's time to tune it for speed and quality.
 
 ## Input shaping
-To use an ADXL345 with a raspberry pi:
-install needed packages with
+We're going to measure the mechanical resonance frequencies with an ADXL345 accelerometer connected to the rpi.
+Install needed packages with
 ```
 sudo apt update
 sudo apt install python3-numpy python3-matplotlib libatlas-base-dev libopenblas-dev
 ```
-install numpy with
+Install numpy with
 ```
 ~/klippy-env/bin/pip install -v "numpy<1.26"
 ```
-now setup the pi to be act as a secondary mcu
+Setup the pi to be act as a secondary mcu
 ```
 cd ~/klipper/
 sudo cp ./scripts/klipper-mcu.service /etc/systemd/system/
 sudo systemctl enable klipper-mcu.service
 ```
-then
+
 ```
 make menuconfig
 ```
-select "linux process" as the arch then Q and Y, then flash with
+Select "linux process" as the arch then Q and Y, then flash with
 ```
 sudo service klipper stop
 make flash
 sudo service klipper start
 ```
-enable SPI with
+Enable SPI with
 ```
 sudo raspi-config
 ```
@@ -193,13 +193,13 @@ SDO -> GPIO9  (21)
 SDA -> GPIO10 (19)  
 SCL -> GPIO11 (23)  
 ```
-Now mount it securely to the extruder (there is an unused hole in the top), use a plastic m3 nut and a thin plastic film to isolate it and avoid ground loops.
+Now mount it securely to the extruder (there is an unused hole in the top), use a plastic m3 bolt and nut to avoid ground loops.
 
 Test the accelerometer with
 ```
 ACCELEROMETER_QUERY
 ```
-then make sure the noise is not too high (at most in the hundreds)
+Then make sure the noise is not too high (at most in the hundreds)
 ```
 MEASURE_AXES_NOISE
 ```
@@ -212,12 +212,12 @@ Measure the resonance with
 ```
 TEST_RESONANCES AXIS=Y
 ```
-then generate your graphs with
+Then generate your graphs and values with
 ```
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_x_*.csv -o /tmp/shaper_calibrate_x.png
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_y_*.csv -o /tmp/shaper_calibrate_y.png
 ```
-update the config file for input shaper
+Update the config file for input shaper
 ```
 [input_shaper]
 shaper_freq_x: <suggested value>
@@ -225,7 +225,7 @@ shaper_type_x: <suggested type>
 shaper_freq_y: <suggested value>
 shaper_type_y: <suggested type>
 ```
-and max acceleration
+And for max acceleration
 ```
 [printer
 max_accel: <less than max suggested>
