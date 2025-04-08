@@ -154,7 +154,7 @@ If it did, success! 🌟
 Now it's time to tune it for speed and quality.
 
 ## Input shaping
-We're going to measure the mechanical resonance frequencies with an ADXL345 accelerometer connected to the rpi.
+We're going to measure the mechanical resonance frequencies with an ADXL345 accelerometer connected to the rpi via SPI.
 
 Install needed packages with
 ```
@@ -185,7 +185,8 @@ Enable SPI with
 ```
 sudo raspi-config
 ```
-Connect the accelerometer to the pi  
+Connect the accelerometer to the pi with twisted pairs (GND+MISO 3.3V+MOSI SCLK+CS).
+Yes I tried without, yes you need them. Cat 5e cable is great for it.
 ```
 VCC -> 3V3    (1)  
 GND -> GND    (6)  
