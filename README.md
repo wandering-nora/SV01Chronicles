@@ -268,6 +268,12 @@ pressure_advance: <chosen value>
 ### Color change macro
 
 ## Table of tuned material parameters
-
+| material | extruder temp | bed temp | max speed (0.2 layer) | cooling | additional notes |
+| -------- | ------------- | -------- | --------- | ------- | ---------------- | 
+| Sunlu PLA+ | 210 | 60 | 150 | 100% | 
+| Sunlu ABS |
+| SainSmart TPU 95A |
+| Esun PET | 275 | 85 | 100 |
+| GEEETECH PETG | 
 
 
