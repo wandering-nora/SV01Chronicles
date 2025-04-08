@@ -253,8 +253,9 @@ pressure_advance: <chosen value>
 
 ### Belt tensioning
 
-
 ### Going fast
+
+### Extra macros
 
 
 
