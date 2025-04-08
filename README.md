@@ -219,6 +219,13 @@ Then generate your graphs and values with
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_x_*.csv -o /tmp/shaper_calibrate_x.png
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_y_*.csv -o /tmp/shaper_calibrate_y.png
 ```
+
+<p align="center">
+  <img src="./img/shaper_calibrate_x.png" style="width: 45%; height: auto;" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="./img/shaper_calibrate_y.png" style="width: 45%; height: auto;" /> 
+</p>
+
 Update the config file for input shaper
 ```
 [input_shaper]
