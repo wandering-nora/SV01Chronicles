@@ -185,7 +185,7 @@ Enable SPI with
 ```
 sudo raspi-config
 ```
-Connect the accelerometer to the pi with twisted pairs (GND+MISO 3.3V+MOSI SCLK+CS).
+Connect the accelerometer to the pi with twisted pairs (GND+MISO 3.3V+MOSI SCLK+CS).  
 Yes I tried without, yes you need them. Cat 5e cable is great for it.
 ```
 VCC -> 3V3    (1)  
@@ -209,7 +209,7 @@ If everything is okay measure the Y axis resonance
 ```
 TEST_RESONANCES AXIS=X
 ```
-Now place the accelerometer one the bed (I just taped it really well).
+Now place the accelerometer on the bed (I just taped it really well).
 Measure the resonance with
 ```
 TEST_RESONANCES AXIS=Y
