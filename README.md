@@ -7,22 +7,22 @@ If you somehow stumble upon this feel free to look around and reach out.
 The Sovol SV01 is a nice little machine, but the time has come to give it a glow up with Klipper to increase print quality and speed.
 My machine is stock apart from a couple upgrades:
 
-### All metal hot end
+## All metal hot end
 I installed a TriangleLabs V6 plated copper hot end following [this](https://youtu.be/IrHVTM04Ivc?si=vAyz9BuilHrvBVQR) great tutorial, which now allows me to print up to 290C. (or 500C with a thermistor swap according to the manufacturer)
 
-### Auto bed leveling
+## Auto bed leveling
 I installed a cr touch, which was the best cheap upgrade I did.
 
-### New firmware
+## New firmware
 I upgraded the printer to Marlin 2.0 building it from [coptertec's](https://www.coptertec.de/blogs/news/marlin-2-0-for-sovol-sv01) source. This is irrelevant for Klipper since it will be replaced.
 
-## Klipper
+# Klipper
 I am installing klipper on a raspberry pi 3B+. I decided to go with Mainsail, but everything else should work for Fluidd and Octoprint as well.
 
-### Config file
-There is a config file available for the SV01 directly in the main repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg) which I used as the starting point.
+## Config file
+There is a config file available for the SV01 directly in the main klipper repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg) which I used as the starting point.
 
-### Kiauh
+## Kiauh
 Mainsail offers a premade image but I decided to use Kiauh to install it manually so I can more easily switch to another interface using the same installation procedure.
 
 Setup Raspberry Pi OS Lite on the pi using RPI imager enabling wifi and ssh. Then ssh into it and run
@@ -37,7 +37,7 @@ cd ~ && git clone https://github.com/dw-0/kiauh.git
 ```
 Now follow the instructions and install Klipper, Moonraker and Mainsail.
 
-### Flashing the firmware
+## Flashing the firmware
 Now it's time to flash the firmware so connect the pi to the printer with a mini USB ✨ cable then run:
 ```bash
 cd ~/klipper/
@@ -59,7 +59,7 @@ sudo service klipper start
 ```
 After a power cycle the screen is now blank and the pi is ready to do all the work.
 
-### Klipper config
+## Klipper config
 Copy [printer.cfg](https://github.com/wandering-nora/SV01Chronicles/blob/main/printer.cfg) to ~/printer_data/config/printer.cfg.  
 Now access Mainsail in a browser by entering your raspberry pi ip, if it complains about missing printer.cfg restart it.
 
@@ -80,7 +80,7 @@ PID_CALIBRATE HEATER=heater_bed TARGET=60
 SAVE_CONFIG
 ```
 
-### Bed leveling
+## Bed leveling
 Calibrate the probe x and y offset by running
 ```
 PROBE
@@ -102,7 +102,7 @@ then home the printer and adjust the z offset with a piece of paper and
 PROBE_CALIBRATE
 ```
 
-### Bed mesh
+## Bed mesh
 Generate a bed mesh by running
 ```
 BED_MESH_CALIBRATE
@@ -113,7 +113,7 @@ SAVE_CONFIG
 ```
 in the webgui you can now visualize how your bed is almost as warped as your personality!
 
-### Extruder calibration
+## Extruder calibration
 Now it's time to calibrate the extruder following these steps
 1. Heat up the nozzle and mark the filament ~70mm from the intake
 2. Measure the actual distance with calipers <initial_mark_distance>
@@ -130,7 +130,7 @@ Now it's time to calibrate the extruder following these steps
    [extruder]
    rotation_distance: <rotation_distance>
    ```
-### Test print
+## Test print
 Setup your slicer, for cura you can just use the existing SV01 preset and change the start and end G-code. For cura using macros they will be
 
 Start G-code
@@ -153,7 +153,7 @@ Now slice a simple model at a slow speed (60mm/s) and start a print, you may nee
 If it did, success! 🌟  
 Now it's time to tune it for speed and quality.
 
-### Input shaping
+## Input shaping
 To use an ADXL345 with a raspberry pi:
 install needed packages with
 ```
@@ -231,10 +231,10 @@ and max acceleration
 max_accel: <less than max suggested>
 ```
 
-### Fine tuning Z offset
+## Fine tuning Z offset
 Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
 
-### Pressure advance
+## Pressure advance
 Now it's time to fix those corners. Once again we're going to use [ellis' tool.](https://ellis3dp.com/Pressure_Linear_Advance_Tool/)  
 You can use the G-code [here](). (210C extruder 60C bed)
 Pick the sharpest corner that isn't too rounded and update the config
@@ -243,22 +243,22 @@ Pick the sharpest corner that isn't too rounded and update the config
 pressure_advance: <chosen value>
 ```
 
-### Extruder multiplier
+## Extruder multiplier
 
-### Retraction
+## Retraction
 
-### Max flow rate
+## Max flow rate
 
-### Improving cooling
+## Improving cooling
 
-### Belt tensioning
+## Belt tensioning
 
-### Going fast
+## Going fast
 
-### Extra macros
-#### Color change macro
+## Extra macros
+### Color change macro
 
-### Table of tuned material parameters
+## Table of tuned material parameters
 
 
 
