@@ -155,6 +155,7 @@ Now it's time to tune it for speed and quality.
 
 ## Input shaping
 We're going to measure the mechanical resonance frequencies with an ADXL345 accelerometer connected to the rpi.
+
 Install needed packages with
 ```
 sudo apt update
