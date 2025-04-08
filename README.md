@@ -256,6 +256,9 @@ pressure_advance: <chosen value>
 ### Going fast
 
 ### Extra macros
+#### Color change macro
+
+### Table of tuned material parameters
 
 
 
