@@ -124,7 +124,7 @@ Now it's time to calibrate the extruder following these steps
    ```
 5. Measure new distance between mark and intake <final_mark_distance>
 6. actual_extrude_distance = <initial_mark_distance> - <final_mark_distance>
-7. rotation_distance = 7.680 * <actual_extrude_distance> / 50
+7. rotation_distance = <old_rotation_distance> * <actual_extrude_distance> / 50
 8. round to 3 decimal places and update the config file
    ```
    [extruder]
