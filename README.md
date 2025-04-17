@@ -153,6 +153,8 @@ Disable unwanted settings according to the [documentation](https://www.klipper3d
 In cura you can use the plugin "Moonraker connection" to send the gcode directly to klipper.  
 Manage printers -> Connect Moonraker -> and enter your pi's ip.  
 
+> tip: if cura takes a long time to load STL files on linux disable the plugin "USB Printing"
+
 Now slice a simple model at a slow speed (60mm/s) and start a print, you may need to adjust the z offset but it should complete the print without issues.
 
 If it did, success! 🌟  
