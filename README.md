@@ -270,7 +270,15 @@ pressure_advance: <chosen value>
 ## Belt tensioning
 
 ## Going fast
-
+## Webcam
+I added an USB webcam to monitor my prints. To get it to work all that's needed is
+```
+cd ~
+git clone https://github.com/mainsail-crew/crowsnest.git
+cd ~/crowsnest
+sudo make install
+```
+Then the camera can be added from the Mainsail settings menu.
 ## Extra macros
 ### Color change macro
 
