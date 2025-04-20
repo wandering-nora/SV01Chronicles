@@ -270,6 +270,8 @@ pressure_advance: <chosen value>
 ## Belt tensioning
 
 ## Going fast
+> placeholder
+max tested speed -> PLA 210C 130mm/s infill and outer wall, 100mm/s rest @2100mm/s^2
 ## Webcam
 I added an USB webcam to monitor my prints. To get it to work all that's needed is
 ```
