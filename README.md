@@ -1,36 +1,35 @@
 # SV01Chronicles
 
-> [!IMPORTANT]  
-> Very WIP
-
 This is a logbook for my SV01 printer thinkering.
 If you somehow stumble upon this feel free to look around and reach out.
 
 > [!WARNING] 
-> I am a beginner and I definitely make mistakes. This is **not** a guide, just some notes for myself to replicate the setup. Make sure to read klipper's [documentation](https://www.klipper3d.org/Installation.html).
+> This is **not** a guide, just some notes for myself to replicate the setup and remember what I've done to this poor machine.
 
-The Sovol SV01 is a nice little machine, but the time has come to give it a glow up with Klipper to increase print quality and speed.
-My machine is stock apart from a couple upgrades:
-
+## Hardware stuff
 ### All metal hot end
-I installed a TriangleLabs V6 plated copper hot end following [this](https://youtu.be/IrHVTM04Ivc?si=vAyz9BuilHrvBVQR) great tutorial, which now allows me to print up to 290C. (or 500C with a thermistor swap according to the manufacturer)
+I installed a TriangleLabs V6 plated copper hot end following [this](https://youtu.be/IrHVTM04Ivc) great tutorial.
+I chamfered a bit the inside of the heat-break on the heatsink side since the filament tended to get stuck when exiting the PTFE tube. 
 
 ### Auto bed leveling
-I installed a cr touch, which was the best cheap upgrade I did.
+Installed a bl touch with [this](https://www.thingiverse.com/thing:4090150) mount printed in PET, securing the probe with m2 heat inserts and screws.
 
-### New firmware
-I upgraded the printer to Marlin 2.0 building it from [coptertec's](https://www.coptertec.de/blogs/news/marlin-2-0-for-sovol-sv01) source. This is irrelevant for Klipper since it will be replaced.
+### Magnetic PEI print surface
+This gives great adhesion and release, but limits the max temp of the bed from 110C to roughly 80C, depending how much you want to risk it.
 
-# Klipper
-I am installing klipper on a raspberry pi 3B+. I decided to go with Mainsail, but everything else should work for Fluidd and Octoprint as well.
+### Minor tune-ups
+Swapped the belts for proper Gates 6mm ones.  
+Swapped v-slot wheels since they were a bit rough.  
+Re-squared the frame.  
 
-## Config file
+## Klipper stuff
+I'm using RPI OS running on a raspberry pi 3B+
+
+### Config file
 There is a config file available for the SV01 directly in the main klipper repository [here](https://raw.githubusercontent.com/Klipper3d/klipper/refs/heads/master/config/printer-sovol-sv01-2020.cfg) which I used as the starting point.
 
-## Kiauh
-Mainsail offers a premade image but I decided to use Kiauh to install it manually so I can more easily switch to another interface using the same installation procedure.
+### Kiauh
 
-Setup Raspberry Pi OS Lite on the pi using RPI imager enabling wifi and ssh. Then ssh into it and run
 ```bash
 sudo apt-get update && sudo apt-get install git -y
 ```
@@ -42,31 +41,29 @@ cd ~ && git clone https://github.com/dw-0/kiauh.git
 ```
 Now follow the instructions and install Klipper, Moonraker and Mainsail.
 
-## Flashing the firmware
-Now it's time to flash the firmware so connect the pi to the printer with a mini USB ✨ cable then run:
+### Flashing the firmware
 ```bash
 cd ~/klipper/
 make menuconfig
 ```
-Select Atmega AVR and atmega2560 then press Q and Y.
+Select Atmega AVR and atmega2560 then press Q and Y
 ```bash
 make
 ```
-Now determine the serial port with
+Now determine the serial port
 ```bash
 ls /dev/serial/by-id/*
 ```
-Flash the firmware with
+Flash the firmware
 ```bash
 sudo service klipper stop
 make flash FLASH_DEVICE=<serial port>
 sudo service klipper start
 ```
-After a power cycle the screen is now blank and the pi is ready to do all the work.
+After a power cycle the screen should be blank (for now).
 
-## Klipper config
-Copy [printer.cfg](https://github.com/wandering-nora/SV01Chronicles/blob/main/printer.cfg) to ~/printer_data/config/printer.cfg.  
-Now access Mainsail in a browser by entering your raspberry pi ip, if it complains about missing printer.cfg restart it.
+### Klipper config
+Copy [printer.cfg](https://github.com/wandering-nora/SV01Chronicles/blob/main/printer.cfg) to ~/printer_data/config/printer.cfg.
 
 Now run
 ```bash
@@ -77,7 +74,7 @@ Update the printer.cfg file
 [mcu]
 serial: <id found>
 ```
-After verifying [basic functionality](https://www.klipper3d.org/Config_checks.html)  pid tune the extruder and bed heater by typing these commands in the console
+After verifying [basic functionality](https://www.klipper3d.org/Config_checks.html)  pid tune the hot end and bed
 ```
 PID_CALIBRATE HEATER=extruder TARGET=170
 SAVE_CONFIG
@@ -85,7 +82,7 @@ PID_CALIBRATE HEATER=heater_bed TARGET=60
 SAVE_CONFIG
 ```
 
-## Bed leveling
+### Bed leveling
 Calibrate the probe x and y offset by running
 ```
 PROBE
@@ -107,22 +104,14 @@ Then home the printer and adjust the z offset with a piece of paper and run
 PROBE_CALIBRATE
 ```
 
-## Bed mesh
-Generate a bed mesh by running
-```
-BED_MESH_CALIBRATE
-```
-Save it with
-```
-SAVE_CONFIG
-```
 In the webgui you can now visualize how your bed is almost as warped as your personality!
 
-## Extruder calibration
+### Extruder calibration
 Now it's time to calibrate the extruder following these steps
 1. Heat up the nozzle and mark the filament ~70mm from the intake
 2. Measure the actual distance with calipers <initial_mark_distance>
 3. Extrude 50mm
+   
    ```
    G91
    G1 E50 F60
@@ -131,48 +120,32 @@ Now it's time to calibrate the extruder following these steps
 6. actual_extrude_distance = <initial_mark_distance> - <final_mark_distance>
 7. rotation_distance = <old_rotation_distance> * <actual_extrude_distance> / 50
 8. round to 3 decimal places and update the config file
+   
    ```
    [extruder]
    rotation_distance: <rotation_distance>
    ```
-## Test print
-Setup your slicer, for cura you can just use the existing SV01 preset and change the start and end G-code. For cura using macros they will be
 
-Start G-code
+### Input shaping
+#### USB-C (Default in config)
+I reccommend using a Mellow Fly style USB-C RP2040 ADXL345 accelerometer, the convenience is worth it.  
+Build the firmware for the RP2040
 ```
-START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
+cd ~/klipper
+make clean
+make menuconfig
 ```
-End G-code
+Connect it while holding down the boot button and flash it
 ```
-END_PRINT
+make flash FLASH_DEVICE=first
 ```
-> macros cannot be stopped, so if you need you can copy the G-code from the printer.cfg macros directly into cura.
+> If this fails just swap "first" with the device id
+ 
+Now update the config with the right serial id.
 
-Disable unwanted settings according to the [documentation](https://www.klipper3d.org/Slicers.html). For cura disable acceleration control, jerk control and coasting.  
+#### SPI
 
-In cura you can use the plugin "Moonraker connection" to send the gcode directly to klipper.  
-Manage printers -> Connect Moonraker -> and enter your pi's ip.  
-
-> tip: if cura takes a long time to load STL files on linux disable the plugin "USB Printing"
-
-Now slice a simple model at a slow speed (60mm/s) and start a print, you may need to adjust the z offset but it should complete the print without issues.
-
-If it did, success! 🌟  
-Now it's time to tune it for speed and quality.
-
-## Input shaping
-We're going to measure the mechanical resonance frequencies with an ADXL345 accelerometer connected to the rpi via SPI.
-
-Install needed packages with
-```
-sudo apt update
-sudo apt install python3-numpy python3-matplotlib libatlas-base-dev libopenblas-dev
-```
-Install numpy with
-```
-~/klippy-env/bin/pip install -v "numpy<1.26"
-```
-Setup the pi to be act as a secondary mcu
+If you still want to use an ADXL345 accelerometer connected to the rpi via SPI then setup the pi to act as a secondary mcu
 ```
 cd ~/klipper/
 sudo cp ./scripts/klipper-mcu.service /etc/systemd/system/
@@ -182,18 +155,17 @@ sudo systemctl enable klipper-mcu.service
 ```
 make menuconfig
 ```
-Select "linux process" as the arch then Q and Y, then flash with
+Select "linux process" as the arch then Q and Y, then flash
 ```
 sudo service klipper stop
 make flash
 sudo service klipper start
 ```
-Enable SPI with
+Enable SPI
 ```
 sudo raspi-config
 ```
-Connect the accelerometer to the pi with twisted pairs (GND+MISO 3.3V+MOSI SCLK+CS).  
-Yes I tried without, yes you need them. Cat 5e cable is great for it.
+Connect the accelerometer to the pi, keep it short or you may get too much interference.
 ```
 VCC -> 3V3    (1)  
 GND -> GND    (6)  
@@ -202,9 +174,21 @@ SDO -> GPIO9  (21)
 SDA -> GPIO10 (19)  
 SCL -> GPIO11 (23)  
 ```
-Now mount it securely to the extruder (there is an unused hole in the top), use a plastic m3 bolt and nut to avoid ground loops.
+#### Measuring resonances
 
-Test the accelerometer with
+Install needed packages
+```
+sudo apt update
+sudo apt install python3-numpy python3-matplotlib libatlas-base-dev libopenblas-dev
+```
+Install numpy
+```
+~/klippy-env/bin/pip install -v "numpy<1.26"
+```
+
+Now mount the accelerometer to the extruder (there is an unused hole in the top) using a plastic m3 screw and nut.
+
+Test the accelerometer
 ```
 ACCELEROMETER_QUERY
 ```
@@ -212,16 +196,16 @@ Then make sure the noise is not too high (at most in the hundreds)
 ```
 MEASURE_AXES_NOISE
 ```
-If everything is okay measure the Y axis resonance
+If everything is okay measure the X axis resonance
 ```
 TEST_RESONANCES AXIS=X
 ```
-Now place the accelerometer on the bed (I just taped it really well).
-Measure the resonance with
+For the Y axis print [this](https://www.printables.com/model/741237-mellow-fly-adxl345-accelerometer-mounts-for-sidewi/files) model and make sure to keep the bed heated up after the print finishes.  
+Now just screw in the board and measure the resonance
 ```
 TEST_RESONANCES AXIS=Y
 ```
-Then generate your graphs and values with
+Then generate your graphs and values
 ```
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_x_*.csv -o /tmp/shaper_calibrate_x.png
 ~/klipper/scripts/calibrate_shaper.py /tmp/resonances_y_*.csv -o /tmp/shaper_calibrate_y.png
@@ -244,13 +228,14 @@ shaper_type_y: <suggested type>
 And for max acceleration
 ```
 [printer
-max_accel: <less than max suggested>
+max_accel: <discussed later, go with what's recommended for now>
 ```
 
-## Fine tuning Z offset
-Fine tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
+### Fine tuning Z offset
+Fine-tune the Z offset with this [awesome guide.](https://ellis3dp.com/Print-Tuning-Guide/articles/first_layer_squish.html)
+Or just fine-tune the offset in 0.01 intervals with [this](https://www.printables.com/model/251587-stress-free-first-layer-calibration-in-less-than-5) model.
 
-## Pressure advance
+### Pressure advance
 Now it's time to fix those corners. Once again we're going to use [ellis' tool.](https://ellis3dp.com/Pressure_Linear_Advance_Tool/)  
 You can use the G-code [here](). (210C extruder 60C bed)
 Pick the sharpest corner that isn't too rounded and update the config
@@ -259,20 +244,7 @@ Pick the sharpest corner that isn't too rounded and update the config
 pressure_advance: <chosen value>
 ```
 
-## Extruder multiplier
-
-## Retraction
-
-## Max flow rate
-
-## Improving cooling
-
-## Belt tensioning
-
-## Going fast
-> placeholder
-max tested speed -> PLA 210C 130mm/s infill and outer wall, 100mm/s rest @2100mm/s^2
-## Webcam
+### Webcam
 I added an USB webcam to monitor my prints. To get it to work all that's needed is
 ```
 cd ~
@@ -280,17 +252,38 @@ git clone https://github.com/mainsail-crew/crowsnest.git
 cd ~/crowsnest
 sudo make install
 ```
-Then the camera can be added from the Mainsail settings menu.
-## Extra macros
-### Color change macro
 
-## Table of tuned material parameters
-| material | extruder temp | bed temp | max speed (0.2 layer) | cooling | additional notes |
-| -------- | ------------- | -------- | --------- | ------- | ---------------- | 
-| Sunlu PLA+ | 210 | 60 | 150 | 100% | 
-| Sunlu ABS |
-| SainSmart TPU 95A |
-| Esun PET | 275 | 85 | 100 |
-| GEEETECH PETG | 
+## Slicer setup
+### OrcaSlicer
 
+### Cura
+For cura you can just use the existing SV01 preset and change the start and end G-code. Using macros they will be
+
+Start G-code
+```
+START_PRINT BED_TEMP={material_bed_temperature_layer_0} EXTRUDER_TEMP={material_print_temperature_layer_0}
+```
+End G-code
+```
+END_PRINT
+```
+> macros cannot be stopped, so if you need you can move the G-code from the printer.cfg macros directly into cura.
+
+Disable acceleration control, jerk control and coasting.  
+
+You can use the plugin "Moonraker connection" to send the gcode directly to klipper.  
+Manage printers -> Connect Moonraker -> and enter your pi's ip.  
+
+> if cura takes a long time to load STL files on linux disable the plugin "USB Printing"
+
+
+### Extruder multiplier
+
+### Retraction
+
+### Max flow rate
+
+### Improving cooling
+
+### Belt tensioning
 
