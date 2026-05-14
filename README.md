@@ -128,7 +128,7 @@ Now it's time to calibrate the extruder following these steps
 
 ### Input shaping
 #### USB-C (Default in config)
-I reccommend using a Mellow Fly style USB-C RP2040 ADXL345 accelerometer, the convenience is worth it.  
+I recommend using a Mellow Fly style USB-C RP2040 ADXL345 accelerometer, the convenience is worth it.  
 Build the firmware for the RP2040
 ```
 cd ~/klipper
