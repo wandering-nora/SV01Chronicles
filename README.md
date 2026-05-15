@@ -39,7 +39,7 @@ cd ~ && git clone https://github.com/dw-0/kiauh.git
 ```bash
 ./kiauh/kiauh.sh
 ```
-Now follow the instructions and install Klipper, Moonraker and Mainsail.
+Now follow the instructions and install Klipper, Moonraker, Mainsail and Crowsnest.
 
 ### Flashing the firmware
 ```bash
@@ -245,13 +245,7 @@ pressure_advance: <chosen value>
 ```
 
 ### Webcam
-I added an USB webcam to monitor my prints. To get it to work all that's needed is
-```
-cd ~
-git clone https://github.com/mainsail-crew/crowsnest.git
-cd ~/crowsnest
-sudo make install
-```
+I added an USB webcam to monitor my prints. (tbc)
 
 ## Slicer setup
 ### OrcaSlicer
